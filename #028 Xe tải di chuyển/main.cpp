@@ -1,51 +1,35 @@
-// tạo captcha
-#include <stdlib.h>
-#include <dos.h>
+// xe tải di chuyển 
 #include <graphics.h>
+#include <dos.h>
+#include <conio.h>
 int main()
 {
-  int i = 0, key, n, x, gd = DETECT, gm;
-  char a[10];
+   int i, j = 0, gd = DETECT, gm;
 
-  initgraph(&gd, &gm, "");
+   initgraph(&gd,&gm,"");
 
-  x = getmaxx()/2;
+   settextstyle(DEFAULT_FONT,HORIZ_DIR,2);
+   outtextxy(25,240,"Press any key to view the moving car");
 
-  settextstyle(SCRIPT_FONT, HORIZ_DIR, 5);
-  settextjustify(CENTER_TEXT, CENTER_TEXT);
-  setcolor(GREEN);
-  outtextxy(x, 20, "CAPTCHA");
-  settextstyle(SCRIPT_FONT, HORIZ_DIR, 2);
-  outtextxy(x, 125, "Press any key to change the generated \"captcha\"");
-  outtextxy(x, 150, "Press escape key to exit...");
+   getch();
+   setviewport(0,0,639,440,1);
 
-  setcolor(WHITE);
-  setviewport(100, 200, 600, 400, 1);
-  setcolor(RED);
-  rand();
+   for (i = 0; i <= 420; i = i + 10, j++)
+   {
+      rectangle(50+i,275,150+i,400);
+      rectangle(150+i,350,200+i,400);
+      circle(75+i,410,10);
+      circle(175+i,410,10);
+      setcolor(j);
+      delay(100);
 
-  while (1)
-  {
-    while (i < 6)
-    {
-      n = rand()%3;
+      if (i == 420)
+         break;
 
-      if (n == 0)
-        a[i] = 65 + rand()%26;    /* 65 is the ASCII value of A */
-      else if (n == 1)
-        a[i] = 97 + rand()%26;    /* 97 is the ASCII value of a */
-      else
-        a[i] = 48 + rand() % 10;    /* 48 is the ASCII value of 0 */
-      i++;
-    }
-    a[i] = '\0';
-    outtextxy(210, 100, a);
-    key = getch();
+      clearviewport();
+   }
 
-    if (key == 27)  /* escape key */
-      exit(0);
-    clearviewport();
-    i = 0;
-  }
-  return 0;
+   getch();
+   closegraph();
+   return 0;
 }
